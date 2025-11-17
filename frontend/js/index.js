@@ -56,20 +56,24 @@ function renderNodeList(nodes) {
 
 function renderPagination(pagination) {
     const paginationEl = document.getElementById('pagination');
+    const currentPage = pagination.current_page || pagination.page || 1;
+    const totalPages = pagination.total_pages || 1;
+    const totalNodes = pagination.total || 0;
+    
     paginationEl.innerHTML = `
-        <button onclick="fetchNodeList(1, currentSearchKey)" ${pagination.page === 1 ? 'disabled' : ''}>
+        <button class="pagination-btn" onclick="fetchNodeList(1, currentSearchKey)" ${currentPage === 1 ? 'disabled' : ''}>
             <i class="fas fa-angle-double-left"></i> 首页
         </button>
-        <button onclick="fetchNodeList(${pagination.page - 1}, currentSearchKey)" ${pagination.page === 1 ? 'disabled' : ''}>
+        <button class="pagination-btn" onclick="fetchNodeList(${currentPage - 1}, currentSearchKey)" ${currentPage === 1 ? 'disabled' : ''}>
             <i class="fas fa-angle-left"></i> 上一页
         </button>
         <span class="pagination-info">
-            第 ${pagination.page}/${pagination.total_pages} 页（共 ${pagination.total} 个节点）
+            第 ${currentPage}/${totalPages} 页（共 ${totalNodes} 个节点）
         </span>
-        <button onclick="fetchNodeList(${pagination.page + 1}, currentSearchKey)" ${pagination.page === pagination.total_pages ? 'disabled' : ''}>
+        <button class="pagination-btn" onclick="fetchNodeList(${currentPage + 1}, currentSearchKey)" ${currentPage === totalPages ? 'disabled' : ''}>
             下一页 <i class="fas fa-angle-right"></i>
         </button>
-        <button onclick="fetchNodeList(${pagination.total_pages}, currentSearchKey)" ${pagination.page === pagination.total_pages ? 'disabled' : ''}>
+        <button class="pagination-btn" onclick="fetchNodeList(${totalPages}, currentSearchKey)" ${currentPage === totalPages ? 'disabled' : ''}>
             末页 <i class="fas fa-angle-double-right"></i>
         </button>
     `;
